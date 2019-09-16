@@ -1,4 +1,4 @@
-package com.robelseyoum3.mealsproject.viewmodel
+package com.robelseyoum3.mealsproject.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
