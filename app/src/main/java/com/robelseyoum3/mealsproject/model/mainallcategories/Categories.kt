@@ -1,4 +1,4 @@
-package com.robelseyoum3.mealsproject.model.maincategories
+package com.robelseyoum3.mealsproject.model.mainallcategories
 
 
 import com.google.gson.annotations.SerializedName
