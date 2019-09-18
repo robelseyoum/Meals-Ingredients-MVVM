@@ -5,10 +5,10 @@
              android:layout_height="match_parent"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context=".view.fragments.FirstFragment"
-             android:id="@+id/fragment_container_from_first">
+             android:id="@+id/fragment_container_from_second">
 
     <ProgressBar
-            android:id="@+id/progress_id_main"
+            android:id="@+id/progress_id_second"
             android:layout_width="142dp"
             android:layout_height="29dp"
             android:visibility="gone"
@@ -18,7 +18,7 @@
     />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvList"
+            android:id="@+id/rvListSecond"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

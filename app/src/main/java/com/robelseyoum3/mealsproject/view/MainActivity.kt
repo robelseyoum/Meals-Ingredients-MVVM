@@ -24,3 +24,5 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 }
+
+//fragment_container_from_main

@@ -1,6 +1,7 @@
 package com.robelseyoum3.mealsproject.view.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.robelseyoum3.mealsproject.R
+import com.robelseyoum3.mealsproject.common.Constants
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
 import com.robelseyoum3.mealsproject.network.RetrofitInstances
@@ -50,9 +52,31 @@ class FirstFragment : Fragment() {
 
     fun categoriesAdapterData(categoriesSource: CategoriesSource){
 
-        val adaptor = CategoriesAdaptor(categoriesSource)
+        val adaptor = CategoriesAdaptor(categoriesSource, object : OnCategoryClickListener{
+            override fun categoryMealClicked(categoryName: String) {
+                Log.d("ClickCategories Name", ""+categoryName)
+                addFragment(categoryName)
+            }
+
+        })
         rvList.layoutManager = LinearLayoutManager(activity?.applicationContext)
         rvList.adapter = adaptor
+    }
+
+    private fun addFragment(categoryName: String){
+
+        var fragmentManager = activity?.supportFragmentManager
+        var fragmetTransaction = fragmentManager?.beginTransaction()
+        var args = Bundle()
+
+        args.putString(Constants.CATEGORY_NAME, categoryName)
+        val secondFragment = SecondFragment()
+        secondFragment.arguments = args
+
+        val context = activity?.applicationContext
+        fragmetTransaction?.replace(R.id.fragment_container_from_main, secondFragment)
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
 
