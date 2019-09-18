@@ -35,7 +35,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val categoryRequest = RetrofitInstances().retrofitInstances.create(CategoryRequestInterface::class.java)
-        val call = categoryRequest.getCategories()
+        val call = categoryRequest.getAllCategories()
 
         call.enqueue(object : Callback<CategoriesSource> {
 

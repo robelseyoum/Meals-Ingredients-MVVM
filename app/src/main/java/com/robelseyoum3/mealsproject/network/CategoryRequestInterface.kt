@@ -2,6 +2,7 @@ package com.robelseyoum3.mealsproject.network
 
 import com.robelseyoum3.mealsproject.common.Constants
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
+import com.robelseyoum3.mealsproject.model.mealdetails.MealDetailSource
 import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
 import retrofit2.Call
 import retrofit2.http.GET
@@ -11,19 +12,15 @@ interface CategoryRequestInterface {
 
 
     @GET(Constants.CATEGORIES_VALUE)
-    fun getCategories(): Call<CategoriesSource>
+    fun getAllCategories(): Call<CategoriesSource>
 
-    @GET("filter.php")
+    @GET(Constants.CATEGORIES_FILTER)
     fun getCategoryByName(@Query("c") category: String?): Call<MealsSource>
 
+    @GET(Constants.CATEGORIES_LOOKUPID)
+    fun getCategoryByID(@Query("i") id: String?): Call<MealDetailSource>
 
 
-    /*
-    @GET("lookup.php")
-    fun getCategoryByName(@Query("i") category: String?): Call<MealsSource>
-
-
-     */
 
 
 

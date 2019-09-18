@@ -40,7 +40,7 @@ class SecondFragment : Fragment() {
             }
             override fun onResponse(call: Call<MealsSource>, response: Response<MealsSource>) {
                 val res = response.body()
-                Log.d("Specific Cat Name", ""+res!!.meals[3]!!.strMeal)
+                Log.d("Specific Cat Name", ""+res!!.meals[3]!!.idMeal)
             }
         })
 

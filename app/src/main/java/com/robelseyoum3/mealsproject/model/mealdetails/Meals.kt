@@ -55,4 +55,5 @@ data class Meals (
 	@SerializedName("strMeasure20") val strMeasure20 : String,
 	@SerializedName("strSource") val strSource : String,
 	@SerializedName("dateModified") val dateModified : String
+
 )
