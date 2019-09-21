@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,10 +18,9 @@ import com.robelseyoum3.mealsproject.di.FragmentModule
 import com.robelseyoum3.mealsproject.di.NetworkModule
 import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
-import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
 import com.robelseyoum3.mealsproject.view.fragments.secondfragment.SecondFragment
-import com.robelseyoum3.mealsproject.viewmodel.MealViewModel
-import com.robelseyoum3.mealsproject.viewmodel.MealViewModelFactory
+import com.robelseyoum3.mealsproject.viewmodel.allcategorymealviewmodel.MealViewModel
+import com.robelseyoum3.mealsproject.viewmodel.allcategorymealviewmodel.MealViewModelFactory
 import kotlinx.android.synthetic.main.fragment_first.*
 import javax.inject.Inject
 
@@ -125,7 +123,6 @@ class FirstFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
-
     }
 
 

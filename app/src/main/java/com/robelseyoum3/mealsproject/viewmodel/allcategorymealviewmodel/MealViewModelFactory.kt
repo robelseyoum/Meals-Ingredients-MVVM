@@ -1,4 +1,4 @@
-package com.robelseyoum3.mealsproject.viewmodel
+package com.robelseyoum3.mealsproject.viewmodel.allcategorymealviewmodel
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,10 @@ class MealViewModelFactory
     (private val categoryRequestInterface: CategoryRequestInterface, private val application: Application)
     : ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MealViewModel(categoryRequestInterface, application) as T
+        return MealViewModel(
+            categoryRequestInterface,
+            application
+        ) as T
     }
 }
 

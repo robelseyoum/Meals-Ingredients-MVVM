@@ -1,4 +1,4 @@
-package com.robelseyoum3.mealsproject.viewmodel
+package com.robelseyoum3.mealsproject.viewmodel.allcategorymealviewmodel
 
 import android.app.Application
 import android.util.Log
@@ -8,11 +8,9 @@ import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoryDatabase
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 import javax.inject.Inject
 
 class MealViewModel  @Inject constructor

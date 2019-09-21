@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.robelseyoum3.mealsproject.R
 import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
-import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.categories_rows.view.*
+import kotlinx.android.synthetic.main.all_categories_rows.view.*
 
 
 class CategoriesAdaptor(private val categoriesSource: List<Categories>, private val listener: OnCategoryClickListener) :
@@ -17,7 +16,7 @@ RecyclerView.Adapter<CategoriesAdaptor.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         return CategoryViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.categories_rows, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.all_categories_rows, parent, false)
         )
     }
 
