@@ -28,7 +28,7 @@ class FirstFragment : Fragment() {
 
     @Inject
     lateinit var mealViewModelFactory: MealViewModelFactory
-    private lateinit var viewModel: MealViewModel
+    lateinit var viewModel: MealViewModel
 
 
     override fun onCreateView(
@@ -49,13 +49,16 @@ class FirstFragment : Fragment() {
                 .build()
                 .inject(this)
 
+
         viewModel = ViewModelProviders.of(this, mealViewModelFactory).get(MealViewModel::class.java)
 
         viewModel.getAllMealData()
 
         viewModel.retunAllMealResult()?.observe(this, object :Observer<CategoriesSource>{
+
             override fun onChanged(t: CategoriesSource?) {
                 Log.d("retunAllMealResultName", ""+t!!.categories[0].strCategory)
+
                 categoriesAdapterData(t.categories)
             }
         })
@@ -90,7 +93,7 @@ class FirstFragment : Fragment() {
             categoriesSource,
             object : OnCategoryClickListener {
                 override fun categoryMealClicked(categoryName: String) {
-                    Log.d("ClickCategories Name", "" + categoryName)
+                    Log.d("ClickAllCat First", "" + categoryName)
                     addFragment(categoryName)
                 }
 

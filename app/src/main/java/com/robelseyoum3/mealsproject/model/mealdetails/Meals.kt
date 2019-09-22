@@ -1,9 +1,13 @@
 package com.robelseyoum3.mealsproject.model.mealdetails
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "detailMeal_table")
 data class Meals (
 
+	@PrimaryKey
 	@SerializedName("idMeal") val idMeal : Int,
 	@SerializedName("strMeal") val strMeal : String,
 	@SerializedName("strDrinkAlternate") val strDrinkAlternate : String,

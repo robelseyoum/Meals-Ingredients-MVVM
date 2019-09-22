@@ -16,7 +16,7 @@ interface CategoriesDAO {
 
 
     @Query("Select * from allCategory_table")
-    fun getAllCakes(): Flowable< List<Categories>>
+    fun getAllCategories(): Flowable< List<Categories>>
 
 
 }

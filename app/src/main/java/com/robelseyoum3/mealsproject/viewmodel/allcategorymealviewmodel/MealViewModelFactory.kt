@@ -8,11 +8,12 @@ import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
 class MealViewModelFactory
     (private val categoryRequestInterface: CategoryRequestInterface, private val application: Application)
     : ViewModelProvider.Factory{
+
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return MealViewModel(
             categoryRequestInterface,
-            application
-        ) as T
+            application) as T
     }
 }
 

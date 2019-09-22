@@ -1,24 +1,46 @@
 package com.robelseyoum3.mealsproject.view.fragments.secondfragment
 
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.robelseyoum3.mealsproject.R
 import com.robelseyoum3.mealsproject.common.Constants
+import com.robelseyoum3.mealsproject.di.DaggerFragmentComponent
+import com.robelseyoum3.mealsproject.di.FragmentModule
+import com.robelseyoum3.mealsproject.di.NetworkModule
+import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
+import com.robelseyoum3.mealsproject.model.specificcategries.Meals
 import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
+import com.robelseyoum3.mealsproject.view.fragments.firstfragment.CategoriesAdaptor
+import com.robelseyoum3.mealsproject.view.fragments.firstfragment.OnCategoryClickListener
 //import com.robelseyoum3.mealsproject.network.RetrofitInstances
 import com.robelseyoum3.mealsproject.view.fragments.thirdfragment.ThirdFragment
+import com.robelseyoum3.mealsproject.viewmodel.allcategorymealviewmodel.MealViewModel
+import com.robelseyoum3.mealsproject.viewmodel.specificategoriesviewmodel.SpecificCategoryViewModel
+import com.robelseyoum3.mealsproject.viewmodel.specificategoriesviewmodel.SpecificCategoryViewModelFactory
+import kotlinx.android.synthetic.main.fragment_first.*
+import kotlinx.android.synthetic.main.fragment_second.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
 class SecondFragment : Fragment() {
+
+    @Inject
+    lateinit var specificCategoryViewModelFactory: SpecificCategoryViewModelFactory
+    lateinit var viewModel: SpecificCategoryViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,25 +53,44 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        DaggerFragmentComponent.builder()
+            .networkModule(NetworkModule(activity!!.application))
+            .fragmentModule(FragmentModule())
+            .build()
+            .inject(this)
+
         val categoryName = arguments?.getString(Constants.CATEGORY_NAME)
 
-      //  val mealRequest = RetrofitInstances().retrofitInstances.create(CategoryRequestInterface::class.java)
-      //  val call = mealRequest.getCategoryByName(categoryName)
+        viewModel = ViewModelProviders.of(this, specificCategoryViewModelFactory).get(SpecificCategoryViewModel::class.java)
 
-       /* call.enqueue(object : Callback<MealsSource>{
-            override fun onFailure(call: Call<MealsSource>, t: Throwable) {
+        viewModel.getAllSpecificCategory(categoryName)
+
+        viewModel.retunAllSpecificCatagoryResult()?.observe(this, object :Observer<MealsSource>{
+            override fun onChanged(t: MealsSource?) {
+
+                Log.d("Specific 2Cat ", ""+t!!.meals[3]!!.idMeal)
+
+                categoriesAdapterData(t.meals)
+
             }
-            override fun onResponse(call: Call<MealsSource>, response: Response<MealsSource>) {
-                val res = response.body()
-                Log.d("Specific Cat Name", ""+res!!.meals[3]!!.idMeal)
-
-                val mealID = res!!.meals[3]!!.idMeal.toString()
-
-                addFragment(mealID)
-            }
-        })*/
+        })
 
     }
+
+    fun categoriesAdapterData(categoriesSource: List<Meals> ){
+
+        val adaptor = SpecificCategoriesAdapter(categoriesSource, object : OnSpecificCategoryClickListener{
+            override fun specificCategoryMealClicked(categoryID: String) {
+              Log.d("2ClickSpecif CatID", "" + categoryID)
+               addFragment(categoryID)
+            }
+        })
+
+        rvListSecond.layoutManager = LinearLayoutManager(activity?.applicationContext)
+        rvListSecond.adapter = adaptor
+    }
+
 
     private fun addFragment(categoryID: String){
 
@@ -66,6 +107,18 @@ class SecondFragment : Fragment() {
             ?.addToBackStack(null)
             ?.commit()
     }
+
+
+
+    companion object{
+        const val TAG = "SecondFragment - RobaZmaks"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
+    }
+
 
 
 }

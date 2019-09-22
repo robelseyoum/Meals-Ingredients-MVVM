@@ -39,7 +39,6 @@ RecyclerView.Adapter<CategoriesAdaptor.CategoryViewHolder>() {
 
         fun bind(categories: Categories, listener: OnCategoryClickListener){
             itemView.setOnClickListener {
-                //listener.categoryMealClicked(categories.categories[adapterPosition].strCategory)
                 listener.categoryMealClicked(categories.strCategory)
             }
         }

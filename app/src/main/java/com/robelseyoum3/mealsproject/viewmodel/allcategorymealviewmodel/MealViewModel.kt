@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
-import com.robelseyoum3.mealsproject.model.mainallcategories.CategoryDatabase
+import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -27,8 +27,10 @@ class MealViewModel  @Inject constructor
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
 
-    var categoryDAO = CategoryDatabase.getDatabase(application)?.CategoriesDAO() // database return
+    var categoryDAO = BaseMealDatabase.getDatabase(application)?.CategoriesDAO() // database return
 
+
+  //  fun getCategoryName() = catName
 
     fun getAllMealData(){
 
@@ -67,7 +69,7 @@ class MealViewModel  @Inject constructor
     }
 
     private fun handleError(error: Throwable) {
-        Log.d("Actors Error ", ""+error.message)
+        Log.d("MainCat Error ", ""+error.message)
         errorMessagePage?.value = true
         progressbarMutableData?.value = false
 
@@ -87,7 +89,7 @@ class MealViewModel  @Inject constructor
 
     fun getAllDBCategories(){
         compositeDisposable.add(
-            categoryDAO!!.getAllCakes()
+            categoryDAO!!.getAllCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

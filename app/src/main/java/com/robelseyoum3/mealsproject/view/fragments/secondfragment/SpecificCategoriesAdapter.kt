@@ -24,6 +24,8 @@ class SpecificCategoriesAdapter(private val specificCategoryMeal: List<Meals>, p
 
         Picasso.get().load(specificCategoryMeal[position].strMealThumb).into(holder.specificCategoryImages)
         holder.specificCategoryNames.text = specificCategoryMeal[position].strMeal
+        // holder.bind(categoriesSource[position], listener)
+        holder.bind(specificCategoryMeal[position], listener)
 
     }
 

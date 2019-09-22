@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "allCategory_table")
 data class Categories (
-
 	@PrimaryKey
 	@SerializedName("idCategory") val idCategory : Int,
 	@SerializedName("strCategory") val strCategory : String,
