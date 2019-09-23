@@ -53,7 +53,8 @@ class FirstFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, mealViewModelFactory).get(MealViewModel::class.java)
 
-        viewModel.getAllMealData()
+
+       viewModel.getAllMealData()
 
         viewModel.retunAllMealResult()?.observe(this, object :Observer<CategoriesSource>{
 
@@ -147,7 +148,7 @@ class FirstFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onDestroy()
+       viewModel.onDestroy()
     }
 
 

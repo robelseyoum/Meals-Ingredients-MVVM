@@ -38,6 +38,7 @@ class FragmentModule {
     : DetailMealViewModelFactory {
         return DetailMealViewModelFactory(categoryRequestInterface, application)
     }
+
    /*
     @Provides
     fun provideId() = id
@@ -48,13 +49,15 @@ class FragmentModule {
 
 
 /*
-@Module
-class RepositoryModule {
 
-@Provides
-@Singleton
-fun provideTeamViewModelFactory(teamRepository: TeamRepository): TeamModelViewFactory{
-    return TeamModelViewFactory(teamRepository)
-}
-}
- */
+    @Module
+    class RepositoryModule {
+
+        @Provides
+        @Singleton
+        fun provideTeamViewModelFactory(teamRepository: TeamRepository): TeamModelViewFactory{
+            return TeamModelViewFactory(teamRepository)
+        }
+    }
+
+*/

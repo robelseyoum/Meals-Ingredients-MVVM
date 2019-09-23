@@ -4,9 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
-import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 class MealViewModel  @Inject constructor
     (private val categoryRequestInterface: CategoryRequestInterface, application: Application) : ViewModel(){
+
 
     private var allCategoryMutableData:  MutableLiveData<CategoriesSource>? = MutableLiveData()
     private var allCategoryDBMutableData:  MutableLiveData<List<Categories>>? = MutableLiveData()
@@ -30,7 +31,7 @@ class MealViewModel  @Inject constructor
     var categoryDAO = BaseMealDatabase.getDatabase(application)?.CategoriesDAO() // database return
 
 
-  //  fun getCategoryName() = catName
+    //  fun getCategoryName() = catName
 
     fun getAllMealData(){
 
@@ -43,9 +44,9 @@ class MealViewModel  @Inject constructor
 
         compositeDisposable.add(
 
-        call.observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(this::handleResponse, this::handleError)
+            call.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleResponse, this::handleError)
         )
     }
 
@@ -118,11 +119,6 @@ class MealViewModel  @Inject constructor
         return errorMessagePage
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.i(TAG, "ViewModel Destroyed")
-    }
-
 
     companion object{
         const val TAG = "MealViewModel"
@@ -134,6 +130,8 @@ class MealViewModel  @Inject constructor
     }
 
 
-
-
+    override fun onCleared() {
+        super.onCleared()
+        Log.i(TAG, "ViewModel Destroyed")
+    }
 }
