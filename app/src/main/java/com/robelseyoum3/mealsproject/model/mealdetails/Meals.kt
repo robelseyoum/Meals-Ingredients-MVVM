@@ -43,7 +43,7 @@ data class Meals (
 	@SerializedName("strMeasure4") val strMeasure4 : String,
 	@SerializedName("strMeasure5") val strMeasure5 : String,
 	@SerializedName("strMeasure6") val strMeasure6 : String,
-	@SerializedName("strMeasure7") val strMeasure7 : Int,
+	@SerializedName("strMeasure7") val strMeasure7 : String,
 	@SerializedName("strMeasure8") val strMeasure8 : String,
 	@SerializedName("strMeasure9") val strMeasure9 : String,
 	@SerializedName("strMeasure10") val strMeasure10 : String,

@@ -125,7 +125,7 @@ class MealViewModel  @Inject constructor
 
 
     companion object{
-        const val TAG = "CakeViewModel"
+        const val TAG = "MealViewModel"
     }
 
 

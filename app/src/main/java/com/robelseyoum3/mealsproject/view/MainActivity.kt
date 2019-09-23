@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
         var fragmentManager = supportFragmentManager
         var fragmetTransaction = fragmentManager.beginTransaction()
 
-        fragmetTransaction.add(R.id.fragment_container_from_main,
-            FirstFragment()
-        )
+        fragmetTransaction.add(R.id.fragment_container_from_main, FirstFragment())
             //  .addToBackStack(null)
             .commit()
     }

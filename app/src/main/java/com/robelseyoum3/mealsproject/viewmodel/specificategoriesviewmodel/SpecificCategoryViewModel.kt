@@ -27,7 +27,6 @@ class SpecificCategoryViewModel  @Inject constructor
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
 
-    //fun getSpecificCategory() = catName
 
     fun getAllSpecificCategory(catName: String?){
         progressbarMutableData?.value = true

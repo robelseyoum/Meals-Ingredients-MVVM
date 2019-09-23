@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.robelseyoum3.mealsproject.model.mealdetails.DetialMealDAO
 import com.robelseyoum3.mealsproject.model.specificcategries.SpecificCatDAO
 
-@Database(entities = arrayOf(Categories::class, com.robelseyoum3.mealsproject.model.mealdetails.Meals::class, com.robelseyoum3.mealsproject.model.specificcategries.Meals::class), version = 2, exportSchema = false)
+@Database(entities = arrayOf(Categories::class, com.robelseyoum3.mealsproject.model.mealdetails.Meals::class, com.robelseyoum3.mealsproject.model.specificcategries.Meals::class), version = 3, exportSchema = false)
 abstract class BaseMealDatabase: RoomDatabase() {
 
     abstract fun CategoriesDAO(): CategoriesDAO
@@ -32,6 +32,7 @@ abstract class BaseMealDatabase: RoomDatabase() {
 
                 val instances =  Room.databaseBuilder(context.applicationContext,
                     BaseMealDatabase::class.java, "Base_Meal_table")
+                    .fallbackToDestructiveMigration()
                     .build()
 
                 INSTANCE = instances

@@ -35,7 +35,7 @@ class SpecificCategoriesAdapter(private val specificCategoryMeal: List<Meals>, p
 
         fun bind(meals: Meals, listener: OnSpecificCategoryClickListener){
             itemView.setOnClickListener {
-                listener.specificCategoryMealClicked(meals.idMeal.toString())
+                listener.specificCategoryMealClicked(meals.idMeal)
             }
         }
 
@@ -44,6 +44,6 @@ class SpecificCategoriesAdapter(private val specificCategoryMeal: List<Meals>, p
 }
 
 interface OnSpecificCategoryClickListener {
-    fun specificCategoryMealClicked(string: String)
+    fun specificCategoryMealClicked(int: Int)
 }
 

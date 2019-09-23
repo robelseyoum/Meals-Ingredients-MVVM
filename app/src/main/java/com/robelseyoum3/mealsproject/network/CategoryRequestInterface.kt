@@ -25,7 +25,7 @@ interface CategoryRequestInterface {
     fun getCategoryByName(@Query("c") category: String?): Observable<MealsSource>
 
     @GET(Constants.CATEGORIES_LOOKUPID)
-    fun getCategoryByID(@Query("i") id: String?): Observable<MealDetailSource>
+    fun getCategoryByID(@Query("i") id: Int?): Observable<MealDetailSource>
 
 
 

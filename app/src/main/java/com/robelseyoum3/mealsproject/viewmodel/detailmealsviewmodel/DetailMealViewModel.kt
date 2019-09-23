@@ -27,9 +27,11 @@ class DetailMealViewModel  @Inject constructor
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
 
-    fun getAllMealDetial(mealID: String?){
+
+    fun getAllMealDetial(mealID: Int?){
+
         progressbarMutableData?.value = true
-        Log.i(TAG, "Get specific category")
+        Log.i(TAG, " 3MealID  "+mealID)
 
         val call = categoryRequestInterface.getCategoryByID(mealID)
 
@@ -38,9 +40,11 @@ class DetailMealViewModel  @Inject constructor
             .subscribe(this::handleResponse, this::handleError)
     }
 
+
     private fun handleResponse(result: MealDetailSource) {
 
         var res = result
+
         detailMealMutableData?.value = res
 
         progressbarMutableData?.value = false
@@ -57,16 +61,18 @@ class DetailMealViewModel  @Inject constructor
 
 
     private fun handleError(error: Throwable) {
-        Log.d("SpecCAt Error ", ""+error.message)
+
+        Log.d("3SpecD Error ", ""+error.message)
         errorMessagePage?.value = true
         progressbarMutableData?.value = false
 
         //telling the database is connection is success
         showSuccess.value = false
+
     }
 
 
-    fun retunAllSpecificCatagoryResult(): MutableLiveData<MealDetailSource>?{
+    fun returnDetailMealResult(): MutableLiveData<MealDetailSource>? {
         progressbarMutableData?.value = true
         return detailMealMutableData
     }

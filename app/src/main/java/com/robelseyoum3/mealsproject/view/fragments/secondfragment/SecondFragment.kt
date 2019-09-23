@@ -53,7 +53,6 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         DaggerFragmentComponent.builder()
             .networkModule(NetworkModule(activity!!.application))
             .fragmentModule(FragmentModule())
@@ -66,24 +65,25 @@ class SecondFragment : Fragment() {
 
         viewModel.getAllSpecificCategory(categoryName)
 
+
         viewModel.retunAllSpecificCatagoryResult()?.observe(this, object :Observer<MealsSource>{
             override fun onChanged(t: MealsSource?) {
 
-                Log.d("Specific 2Cat ", ""+t!!.meals[3]!!.idMeal)
+                Log.d("Specific 2Cat ", ""+t!!.meals.size)
 
                 categoriesAdapterData(t.meals)
-
             }
         })
+
 
     }
 
     fun categoriesAdapterData(categoriesSource: List<Meals> ){
 
         val adaptor = SpecificCategoriesAdapter(categoriesSource, object : OnSpecificCategoryClickListener{
-            override fun specificCategoryMealClicked(categoryID: String) {
-              Log.d("2ClickSpecif CatID", "" + categoryID)
-               addFragment(categoryID)
+            override fun specificCategoryMealClicked(categoryID: Int) {
+            //  Log.d("2ClickSpecif CatID", "" + categoryID)
+               addFragment(categoryID.toString())
             }
         })
 
@@ -103,7 +103,7 @@ class SecondFragment : Fragment() {
         val thirdFragment = ThirdFragment()
         thirdFragment.arguments = args
 
-        fragmetTransaction?.replace(R.id.fragment_container_from_second, thirdFragment)
+        fragmetTransaction?.replace(R.id.fragment_container_from_main, thirdFragment)
             ?.addToBackStack(null)
             ?.commit()
     }

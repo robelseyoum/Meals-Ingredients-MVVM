@@ -13,6 +13,7 @@ import javax.inject.Singleton
 @Module
 class FragmentModule {
 
+
     @Provides
     @Singleton
     fun provideMealViewModelFactory(categoryRequestInterface: CategoryRequestInterface, application: Application)
@@ -37,8 +38,11 @@ class FragmentModule {
     : DetailMealViewModelFactory {
         return DetailMealViewModelFactory(categoryRequestInterface, application)
     }
+   /*
+    @Provides
+    fun provideId() = id
 
-
+*/
 }
 
 
