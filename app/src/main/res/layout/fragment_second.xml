@@ -26,7 +26,7 @@
     />
 
     <include
-            android:id="@+id/include_error_msg"
+            android:id="@+id/include_error_msg_2"
             layout="@layout/error_file"
             android:visibility="gone"
             android:layout_height="match_parent"

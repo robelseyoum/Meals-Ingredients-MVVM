@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -72,6 +73,47 @@ class SecondFragment : Fragment() {
                 Log.d("Specific 2Cat ", ""+t!!.meals.size)
 
                 categoriesAdapterData(t.meals)
+            }
+        })
+
+        viewModel.getAllSpecificDBCategories()
+
+        viewModel.returnSpecificDBResult()?.observe(this, object : Observer<List<Meals>>{
+            override fun onChanged(t: List<Meals>) {
+                categoriesAdapterData(t)
+            }
+        })
+
+
+        viewModel.returnProgressBar()?.observe(this, object : Observer<Boolean>{
+            override fun onChanged(t: Boolean?) {
+                if(t==true){
+                    progress_id_second.visibility = View.VISIBLE
+                }else{
+                    progress_id_second.visibility = View.GONE
+                }
+            }
+        })
+
+
+        viewModel.returnErrorResult()?.observe(this, object : Observer<Boolean>{
+            override fun onChanged(t: Boolean?) {
+
+                if(t == true){
+                    Toast.makeText(activity,"Show error page", Toast.LENGTH_SHORT).show()
+                    include_error_msg_2.visibility = View.VISIBLE
+                }else{
+                    include_error_msg_2.visibility = View.GONE
+                }
+            }
+
+        })
+
+        viewModel.showDbSuccess.observe(this, Observer {
+            if (it == true){
+                Toast.makeText(context,"got Meal Database successfully", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context,"Something went wrong with db", Toast.LENGTH_SHORT).show()
             }
         })
 

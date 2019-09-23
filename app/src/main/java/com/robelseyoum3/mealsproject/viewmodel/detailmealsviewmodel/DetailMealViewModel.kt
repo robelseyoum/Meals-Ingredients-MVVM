@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.model.mealdetails.MealDetailSource
 import com.robelseyoum3.mealsproject.model.mealdetails.Meals
 import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
@@ -26,6 +27,8 @@ class DetailMealViewModel  @Inject constructor
     var showDbSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
+
+    var detailDAO = BaseMealDatabase.getDatabase(application)?.DetialMealDAO() // database return
 
 
     fun getAllMealDetial(mealID: Int?){
@@ -54,7 +57,7 @@ class DetailMealViewModel  @Inject constructor
         showSuccess.value = true
 
         for (i in result.meals){
-            //addToDb(i)
+            addToDb(i)
         }
         //addToDb(res)
     }
@@ -78,7 +81,39 @@ class DetailMealViewModel  @Inject constructor
     }
 
 
-    fun returnErrorResult(): MutableLiveData<Boolean>?{
+    private fun addToDb(result: Meals) {
+
+        compositeDisposable.add(
+            detailDAO!!.insertDetail(result)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {showDbSuccess.value = true}
+        )
+    }
+
+    fun getAllDetailsDBMeals(){
+        compositeDisposable.add(
+            detailDAO!!.getAllDetailMeal()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                            dbmeals -> detailMealDBMutableData!!.value = dbmeals
+                    },{}
+                )
+        )
+    }
+
+
+    fun returnDetailDBResult(): MutableLiveData<List<Meals>>?{
+        return detailMealDBMutableData
+    }
+
+    fun returnProgressBar(): MutableLiveData<Boolean>?{
+        return progressbarMutableData
+    }
+
+    fun returnErrorResult(): MutableLiveData<Boolean>? {
         return errorMessagePage
     }
 

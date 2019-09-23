@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.robelseyoum3.mealsproject.R
@@ -15,11 +16,9 @@ import com.robelseyoum3.mealsproject.di.DaggerFragmentComponent
 import com.robelseyoum3.mealsproject.di.FragmentModule
 import com.robelseyoum3.mealsproject.di.NetworkModule
 import com.robelseyoum3.mealsproject.model.mealdetails.MealDetailSource
-import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
+import com.robelseyoum3.mealsproject.model.mealdetails.Meals
 import com.robelseyoum3.mealsproject.viewmodel.detailmealsviewmodel.DetailMealViewModel
 import com.robelseyoum3.mealsproject.viewmodel.detailmealsviewmodel.DetailMealViewModelFactory
-import io.reactivex.Observable
-import io.reactivex.Observer
 import kotlinx.android.synthetic.main.fragment_third.*
 import javax.inject.Inject
 
@@ -65,6 +64,47 @@ class ThirdFragment : Fragment() {
                 categoriesAdapterData(t!!.meals)
             }
         })
+
+        viewModel.getAllDetailsDBMeals()
+
+        viewModel.returnDetailDBResult()?.observe(this, object : androidx.lifecycle.Observer<List<Meals>>{
+            override fun onChanged(t: List<Meals>) {
+                categoriesAdapterData(t)
+            }
+        })
+
+        viewModel.returnProgressBar()?.observe(this, object : androidx.lifecycle.Observer<Boolean> {
+            override fun onChanged(t: Boolean?) {
+                if(t==true){
+                    progress_id_third.visibility = View.VISIBLE
+                }else{
+                    progress_id_third.visibility = View.GONE
+                }
+            }
+        })
+
+
+        viewModel.returnErrorResult()?.observe(this, object : androidx.lifecycle.Observer<Boolean> {
+            override fun onChanged(t: Boolean?) {
+
+                if(t == true){
+                    Toast.makeText(activity,"Show error page", Toast.LENGTH_SHORT).show()
+                    include_error_msg_3.visibility = View.VISIBLE
+                }else{
+                    include_error_msg_3.visibility = View.GONE
+                }
+            }
+
+        })
+
+        viewModel.showDbSuccess.observe(this, androidx.lifecycle.Observer {
+            if(it == true){
+                Toast.makeText(context,"got Meal Database successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context,"Something went wrong with db", Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 
     fun categoriesAdapterData(mealDetials: List<com.robelseyoum3.mealsproject.model.mealdetails.Meals>){

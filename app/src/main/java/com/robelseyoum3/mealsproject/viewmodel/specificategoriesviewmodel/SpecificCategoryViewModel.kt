@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.model.specificcategries.Meals
 import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
@@ -16,7 +17,7 @@ class SpecificCategoryViewModel  @Inject constructor
     (private val categoryRequestInterface: CategoryRequestInterface, application: Application) : ViewModel(){
 
     private var allSpecificCategorMutableData: MutableLiveData<MealsSource>? = MutableLiveData()
-    private var allSpecificCategoDBrMutableData: MutableLiveData<List<Meals>>? = MutableLiveData()
+    private var allSpecificCategoDBrMutableData: MutableLiveData<List<Meals>> = MutableLiveData()
 
     private var progressbarMutableData:  MutableLiveData<Boolean>? = MutableLiveData()
     private var errorMessagePage: MutableLiveData<Boolean>? = MutableLiveData()
@@ -26,6 +27,8 @@ class SpecificCategoryViewModel  @Inject constructor
     var showDbSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
+
+    var specificDAO = BaseMealDatabase.getDatabase(application)?.SpecificCatDAO() // database return
 
 
     fun getAllSpecificCategory(catName: String?){
@@ -51,7 +54,7 @@ class SpecificCategoryViewModel  @Inject constructor
         showSuccess.value = true
 
         for (i in result.meals){
-            //addToDb(i)
+            addToDb(i)
         }
         //addToDb(res)
     }
@@ -72,8 +75,40 @@ class SpecificCategoryViewModel  @Inject constructor
     }
 
 
+    private fun addToDb(result: Meals) {
+
+        compositeDisposable.add(
+            specificDAO!!.insertCategory(result)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {showDbSuccess.value = true}
+        )
+    }
+
+    fun getAllSpecificDBCategories(){
+        compositeDisposable.add(
+            specificDAO!!.getSpecificCategory()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                            category -> allSpecificCategoDBrMutableData!!.value = category
+                    },{}
+                )
+        )
+    }
+
+
+    fun returnSpecificDBResult(): MutableLiveData<List<Meals>>? {
+        return allSpecificCategoDBrMutableData
+    }
+
     fun returnErrorResult(): MutableLiveData<Boolean>?{
         return errorMessagePage
+    }
+
+    fun returnProgressBar(): MutableLiveData<Boolean>?{
+        return progressbarMutableData
     }
 
     override fun onCleared() {

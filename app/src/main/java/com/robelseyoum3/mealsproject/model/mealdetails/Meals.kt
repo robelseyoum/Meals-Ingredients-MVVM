@@ -10,7 +10,7 @@ data class Meals (
 	@PrimaryKey
 	@SerializedName("idMeal") val idMeal : Int,
 	@SerializedName("strMeal") val strMeal : String,
-	@SerializedName("strDrinkAlternate") val strDrinkAlternate : String,
+	//@SerializedName("strDrinkAlternate") val strDrinkAlternate : String,
 	@SerializedName("strCategory") val strCategory : String,
 	@SerializedName("strArea") val strArea : String,
 	@SerializedName("strInstructions") val strInstructions : String,
@@ -57,7 +57,7 @@ data class Meals (
 	@SerializedName("strMeasure18") val strMeasure18 : String,
 	@SerializedName("strMeasure19") val strMeasure19 : String,
 	@SerializedName("strMeasure20") val strMeasure20 : String,
-	@SerializedName("strSource") val strSource : String,
-	@SerializedName("dateModified") val dateModified : String
+	@SerializedName("strSource") val strSource : String
+	//@SerializedName("dateModified") val dateModified : String
 
 )
