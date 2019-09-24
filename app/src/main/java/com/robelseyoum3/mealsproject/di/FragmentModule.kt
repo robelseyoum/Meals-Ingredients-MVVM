@@ -48,16 +48,3 @@ class FragmentModule {
 
 
 
-/*
-
-    @Module
-    class RepositoryModule {
-
-        @Provides
-        @Singleton
-        fun provideTeamViewModelFactory(teamRepository: TeamRepository): TeamModelViewFactory{
-            return TeamModelViewFactory(teamRepository)
-        }
-    }
-
-*/

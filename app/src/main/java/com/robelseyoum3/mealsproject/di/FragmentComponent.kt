@@ -17,19 +17,3 @@ interface FragmentComponent {
 
 
 }
-
-/*
-@Singleton
-@Component(modules = arrayOf(NetworkModule::class,
-    RepositoryModule::class,
-    PlayerRepoModule::class,
-    PlayerDetailRepoModule::class))
-interface NetworkComponent {
-
-    fun inject(teamFragment: TeamFragment)
-
-    fun inject (playerFragment: PlayerFragment)
-
-    fun inject (playersDetailsFragment: PlayersDetailsFragment
- */
-

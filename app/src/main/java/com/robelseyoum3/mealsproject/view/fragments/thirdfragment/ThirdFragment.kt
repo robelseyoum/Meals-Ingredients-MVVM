@@ -31,8 +31,6 @@ class ThirdFragment : Fragment() {
     lateinit var viewModel: DetailMealViewModel
 
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -113,6 +111,8 @@ class ThirdFragment : Fragment() {
         rvListThird.layoutManager = LinearLayoutManager(activity?.applicationContext)
         rvListThird.adapter = adaptor
     }
+
+    fun detailMeals()
 
 
     companion object{
