@@ -77,13 +77,13 @@ class SecondFragment : Fragment() {
             }
         })
 
-        viewModel.getAllSpecificDBCategories()
+//        viewModel.getAllSpecificDBCategories()
 
-        viewModel.returnSpecificDBResult()?.observe(this, object : Observer<List<Meals>>{
-            override fun onChanged(t: List<Meals>) {
-                categoriesAdapterData(t)
-            }
-        })
+//        viewModel.returnSpecificDBResult()?.observe(this, object : Observer<List<Meals>>{
+//            override fun onChanged(t: List<Meals>) {
+//                categoriesAdapterData(t)
+//            }
+//        })
 
 
         viewModel.returnProgressBar()?.observe(this, object : Observer<Boolean>{

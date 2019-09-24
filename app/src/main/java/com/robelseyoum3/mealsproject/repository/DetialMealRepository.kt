@@ -24,7 +24,7 @@ class DetialMealRepository
         return detailMealDAO!!.insertDetail(result)
     }
 
-    fun getAllMealDetailsFromDB(): Flowable<List<Meals>> {
+    fun getAllMealDetailsFromDB(): Flowable<Meals> {
         return detailMealDAO!!.getAllDetailMeal()
     }
 

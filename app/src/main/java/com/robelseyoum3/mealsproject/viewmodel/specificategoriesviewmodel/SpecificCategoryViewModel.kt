@@ -38,9 +38,11 @@ class SpecificCategoryViewModel(val specificCatagoryRepository: SpecificCatagory
         //val call = categoryRequestInterface.getCategoryByName(catName)
         val call = specificCatagoryRepository.getAllSpecificCategories(catName)
 
+        compositeDisposable.add(
         call.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(this::handleResponse, this::handleError)
+        )
     }
 
     private fun handleResponse(result: MealsSource) {

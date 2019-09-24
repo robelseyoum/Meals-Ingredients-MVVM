@@ -16,6 +16,6 @@ interface DetialMealDAO {
 
 
     @Query("Select * from detailMeal_table")
-    fun getAllDetailMeal(): Flowable<List<com.robelseyoum3.mealsproject.model.mealdetails.Meals>>
+    fun getAllDetailMeal(): Flowable<com.robelseyoum3.mealsproject.model.mealdetails.Meals>
 }
 

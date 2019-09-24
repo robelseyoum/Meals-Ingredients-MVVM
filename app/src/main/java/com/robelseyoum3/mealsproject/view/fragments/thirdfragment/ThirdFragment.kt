@@ -9,16 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.robelseyoum3.mealsproject.R
 import com.robelseyoum3.mealsproject.common.Constants
 import com.robelseyoum3.mealsproject.di.DaggerFragmentComponent
 import com.robelseyoum3.mealsproject.di.FragmentModule
 import com.robelseyoum3.mealsproject.di.NetworkModule
-import com.robelseyoum3.mealsproject.model.mealdetails.MealDetailSource
 import com.robelseyoum3.mealsproject.model.mealdetails.Meals
 import com.robelseyoum3.mealsproject.viewmodel.detailmealsviewmodel.DetailMealViewModel
 import com.robelseyoum3.mealsproject.viewmodel.detailmealsviewmodel.DetailMealViewModelFactory
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_third.*
 import javax.inject.Inject
 
@@ -57,26 +56,28 @@ class ThirdFragment : Fragment() {
 
         viewModel.getAllMealDetial(mealID?.toInt())
 
-        viewModel.returnDetailMealResult()?.observe(this, object :androidx.lifecycle.Observer<MealDetailSource>{
-            override fun onChanged(t: MealDetailSource?) {
-                categoriesAdapterData(t!!.meals)
-            }
-        })
-
-        viewModel.getAllDetailsDBMeals()
-
-        viewModel.returnDetailDBResult()?.observe(this, object : androidx.lifecycle.Observer<List<Meals>>{
+        viewModel.returnDetailMealResult()?.observe(this, object :androidx.lifecycle.Observer<List<Meals>>{
             override fun onChanged(t: List<Meals>) {
-                categoriesAdapterData(t)
+                detailMeals(t)
             }
+
         })
+
+//        viewModel.getAllDetailsDBMeals()
+//
+//        viewModel.returnDetailDBResult()?.observe(this, object : androidx.lifecycle.Observer<Meals>{
+//            override fun onChanged(t: Meals) {
+////                detailMeals(t)
+//            }
+//
+//        })
 
         viewModel.returnProgressBar()?.observe(this, object : androidx.lifecycle.Observer<Boolean> {
             override fun onChanged(t: Boolean?) {
                 if(t==true){
-                    progress_id_third.visibility = View.VISIBLE
+                    progress_id_details.visibility = View.VISIBLE
                 }else{
-                    progress_id_third.visibility = View.GONE
+                    progress_id_details.visibility = View.GONE
                 }
             }
         })
@@ -105,15 +106,11 @@ class ThirdFragment : Fragment() {
 
     }
 
-    fun categoriesAdapterData(mealDetials: List<com.robelseyoum3.mealsproject.model.mealdetails.Meals>){
-
-        val adaptor = MealDetailAdapter(mealDetials)
-        rvListThird.layoutManager = LinearLayoutManager(activity?.applicationContext)
-        rvListThird.adapter = adaptor
+    fun detailMeals(result: List<Meals>){
+        Picasso.get().load(result[0].strMealThumb).into(tv_image_detail)
+        tv_title_detail.text = result[0].strMeal
+        tv_description_detail.text = result[0].strInstructions
     }
-
-    fun detailMeals()
-
 
     companion object{
         const val TAG = "ThirdFragment - Roba"

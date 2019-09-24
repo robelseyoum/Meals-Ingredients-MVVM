@@ -54,7 +54,9 @@ class FirstFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, mealViewModelFactory).get(MealViewModel::class.java)
 
 
-       viewModel.getAllMealData()
+       //viewModel.getAllMealData(checknetWork())
+        viewModel.getAllMealData()
+
 
         viewModel.retunAllMealResult()?.observe(this, object :Observer<CategoriesSource>{
 
@@ -65,14 +67,14 @@ class FirstFragment : Fragment() {
             }
         })
 
-        viewModel.getAllDBCategories()
-
-        viewModel.returnDBResult()?.observe(this, object : Observer<List<Categories>>{
-            override fun onChanged(t: List<Categories>) {
-                //Log.d("Categories Name", ""+t!!.categories[0]!!.strCategory)
-                categoriesAdapterData(t)
-            }
-        })
+//        viewModel.getAllDBCategories()
+//
+//        viewModel.returnDBResult()?.observe(this, object : Observer<List<Categories>>{
+//            override fun onChanged(t: List<Categories>) {
+//                //Log.d("Categories Name", ""+t!!.categories[0]!!.strCategory)
+//                categoriesAdapterData(t)
+//            }
+//        })
 
 
         viewModel.returnProgressBar()?.observe(this, object : Observer<Boolean>{

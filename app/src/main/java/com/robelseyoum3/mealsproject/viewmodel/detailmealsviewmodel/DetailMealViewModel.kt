@@ -12,8 +12,10 @@ import io.reactivex.schedulers.Schedulers
 
 class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : ViewModel() {
 
-    private var detailMealMutableData: MutableLiveData<MealDetailSource>?  = MutableLiveData()
-    private var detailMealDBMutableData: MutableLiveData<List<Meals>>? = MutableLiveData()
+    //private var detailMealMutableData: MutableLiveData<MealDetailSource>?  = MutableLiveData()
+    private var detailMealMutableData: MutableLiveData<List<Meals>>?  = MutableLiveData()
+
+    private var detailMealDBMutableData: MutableLiveData<Meals>? = MutableLiveData()
 
     private var progressbarMutableData:  MutableLiveData<Boolean>? = MutableLiveData()
     private var errorMessagePage: MutableLiveData<Boolean>? = MutableLiveData()
@@ -32,9 +34,10 @@ class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : Vie
 
        // val call = categoryRequestInterface.getCategoryByID(mealID)
         val call = detailMealRepository.getAllMealDetails(mealID)
+        compositeDisposable.add(
         call.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(this::handleResponse, this::handleError)
+            .subscribe(this::handleResponse, this::handleError))
     }
 
 
@@ -42,7 +45,7 @@ class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : Vie
 
         var res = result
 
-        detailMealMutableData?.value = res
+        detailMealMutableData?.value = result.meals
 
         progressbarMutableData?.value = false
         errorMessagePage?.value = false
@@ -53,7 +56,7 @@ class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : Vie
         for (i in result.meals){
             addToDb(i)
         }
-        //addToDb(res)
+//        addToDb(result.meals)
     }
 
 
@@ -69,7 +72,7 @@ class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : Vie
     }
 
 
-    fun returnDetailMealResult(): MutableLiveData<MealDetailSource>? {
+    fun returnDetailMealResult(): MutableLiveData<List<Meals>>? {
         progressbarMutableData?.value = true
         return detailMealMutableData
     }
@@ -99,7 +102,7 @@ class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : Vie
     }
 
 
-    fun returnDetailDBResult(): MutableLiveData<List<Meals>>?{
+    fun returnDetailDBResult(): MutableLiveData<Meals>?{
         return detailMealDBMutableData
     }
 

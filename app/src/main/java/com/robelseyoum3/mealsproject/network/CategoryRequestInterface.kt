@@ -4,6 +4,7 @@ import com.robelseyoum3.mealsproject.common.Constants
 import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
 import com.robelseyoum3.mealsproject.model.mealdetails.MealDetailSource
+import com.robelseyoum3.mealsproject.model.mealdetails.Meals
 import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
 import io.reactivex.Observable
 import retrofit2.Call
