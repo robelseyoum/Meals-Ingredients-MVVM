@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.robelseyoum3.mealsproject.R
@@ -129,7 +130,8 @@ class SecondFragment : Fragment() {
             }
         })
 
-        rvListSecond.layoutManager = LinearLayoutManager(activity?.applicationContext)
+        rvListSecond.layoutManager = GridLayoutManager(activity?.applicationContext, 2)
+        //(activity?.applicationContext)
         rvListSecond.adapter = adaptor
     }
 
