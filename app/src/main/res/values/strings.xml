@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Meals Project</string>
+    <string name="app_name">Final Meals Project</string>
 
     <string name="list_of_allCategories">List of All Categories</string>
     <string name="list_of_specificCategories">List of Specific Category </string>
