@@ -8,13 +8,13 @@ import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.model.specificcategries.Meals
 import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
+import com.robelseyoum3.mealsproject.repository.SpecificCatagoryRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SpecificCategoryViewModel  @Inject constructor
-    (private val categoryRequestInterface: CategoryRequestInterface, application: Application) : ViewModel(){
+class SpecificCategoryViewModel(val specificCatagoryRepository: SpecificCatagoryRepository ) : ViewModel() {
 
     private var allSpecificCategorMutableData: MutableLiveData<MealsSource>? = MutableLiveData()
     private var allSpecificCategoDBrMutableData: MutableLiveData<List<Meals>> = MutableLiveData()
@@ -28,14 +28,15 @@ class SpecificCategoryViewModel  @Inject constructor
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
 
-    var specificDAO = BaseMealDatabase.getDatabase(application)?.SpecificCatDAO() // database return
+   // var specificDAO = BaseMealDatabase.getDatabase(application)?.SpecificCatDAO() // database return
 
 
     fun getAllSpecificCategory(catName: String?){
         progressbarMutableData?.value = true
         Log.i(TAG, "Get specific category")
 
-        val call = categoryRequestInterface.getCategoryByName(catName)
+        //val call = categoryRequestInterface.getCategoryByName(catName)
+        val call = specificCatagoryRepository.getAllSpecificCategories(catName)
 
         call.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -78,7 +79,7 @@ class SpecificCategoryViewModel  @Inject constructor
     private fun addToDb(result: Meals) {
 
         compositeDisposable.add(
-            specificDAO!!.insertCategory(result)
+            specificCatagoryRepository!!.addSpecificCategoreisToDB(result)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {showDbSuccess.value = true}
@@ -87,7 +88,7 @@ class SpecificCategoryViewModel  @Inject constructor
 
     fun getAllSpecificDBCategories(){
         compositeDisposable.add(
-            specificDAO!!.getSpecificCategory()
+            specificCatagoryRepository.getAllSpecificCategoriesFromDB()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

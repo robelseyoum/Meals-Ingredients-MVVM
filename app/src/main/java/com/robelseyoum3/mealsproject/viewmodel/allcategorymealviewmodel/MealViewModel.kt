@@ -8,14 +8,14 @@ import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.model.mainallcategories.Categories
 import com.robelseyoum3.mealsproject.model.mainallcategories.CategoriesSource
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
+import com.robelseyoum3.mealsproject.repository.AllCatagoryRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MealViewModel  @Inject constructor
-    (private val categoryRequestInterface: CategoryRequestInterface, application: Application) : ViewModel(){
 
+class MealViewModel(val allCatagoryRepository: AllCatagoryRepository) : ViewModel() {
 
     private var allCategoryMutableData:  MutableLiveData<CategoriesSource>? = MutableLiveData()
     private var allCategoryDBMutableData:  MutableLiveData<List<Categories>>? = MutableLiveData()
@@ -28,7 +28,7 @@ class MealViewModel  @Inject constructor
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
 
-    var categoryDAO = BaseMealDatabase.getDatabase(application)?.CategoriesDAO() // database return
+    //var categoryDAO = BaseMealDatabase.getDatabase(application)?.CategoriesDAO() // database return
 
 
     //  fun getCategoryName() = catName
@@ -40,7 +40,8 @@ class MealViewModel  @Inject constructor
         Log.i(TAG, "GET Cake result ")
         //this one is created at di.NetworkModule/fun provideClientInterface(retrofit: Retrofit) = retrofit.create(CakeRequestInterface::class.java)
 
-        val call = categoryRequestInterface.getAllCategories()
+        //val call = categoryRequestInterface.getAllCategories()
+        val call = allCatagoryRepository.getAllCategories()
 
         compositeDisposable.add(
 
@@ -81,7 +82,7 @@ class MealViewModel  @Inject constructor
     private fun addToDb(result: Categories) {
 
         compositeDisposable.add(
-            categoryDAO!!.insertCategory(result)
+            allCatagoryRepository.addCategoreisToDB(result)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {showDbSuccess.value = true}
@@ -90,7 +91,7 @@ class MealViewModel  @Inject constructor
 
     fun getAllDBCategories(){
         compositeDisposable.add(
-            categoryDAO!!.getAllCategories()
+            allCatagoryRepository.getAllCategoriesFromDB()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

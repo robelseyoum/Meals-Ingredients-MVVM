@@ -12,7 +12,7 @@ import io.reactivex.Flowable
 interface CategoriesDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCategory(categories: Categories): Completable
+    fun insertAllCategory(categories: Categories): Completable
 
 
     @Query("Select * from allCategory_table")

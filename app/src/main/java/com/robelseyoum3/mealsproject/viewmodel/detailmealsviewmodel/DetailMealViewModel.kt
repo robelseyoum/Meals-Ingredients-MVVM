@@ -1,21 +1,16 @@
 package com.robelseyoum3.mealsproject.viewmodel.detailmealsviewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.robelseyoum3.mealsproject.model.mainallcategories.BaseMealDatabase
 import com.robelseyoum3.mealsproject.model.mealdetails.MealDetailSource
 import com.robelseyoum3.mealsproject.model.mealdetails.Meals
-import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
-import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
+import com.robelseyoum3.mealsproject.repository.DetialMealRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class DetailMealViewModel  @Inject constructor
-    (private val categoryRequestInterface: CategoryRequestInterface, application: Application) : ViewModel() {
+class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : ViewModel() {
 
     private var detailMealMutableData: MutableLiveData<MealDetailSource>?  = MutableLiveData()
     private var detailMealDBMutableData: MutableLiveData<List<Meals>>? = MutableLiveData()
@@ -28,16 +23,15 @@ class DetailMealViewModel  @Inject constructor
 
     var compositeDisposable = CompositeDisposable() //we can add several observable
 
-    var detailDAO = BaseMealDatabase.getDatabase(application)?.DetialMealDAO() // database return
-
+ //   var detailDAO = BaseMealDatabase.getDatabase(application)?.DetialMealDAO() // database return
 
     fun getAllMealDetial(mealID: Int?){
 
         progressbarMutableData?.value = true
         Log.i(TAG, " 3MealID  "+mealID)
 
-        val call = categoryRequestInterface.getCategoryByID(mealID)
-
+       // val call = categoryRequestInterface.getCategoryByID(mealID)
+        val call = detailMealRepository.getAllMealDetails(mealID)
         call.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(this::handleResponse, this::handleError)
@@ -80,11 +74,10 @@ class DetailMealViewModel  @Inject constructor
         return detailMealMutableData
     }
 
-
     private fun addToDb(result: Meals) {
-
         compositeDisposable.add(
-            detailDAO!!.insertDetail(result)
+            //detailDAO!!.insertDetail(result)
+            detailMealRepository!!.addMealDetailsToDB(result)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {showDbSuccess.value = true}
@@ -93,7 +86,8 @@ class DetailMealViewModel  @Inject constructor
 
     fun getAllDetailsDBMeals(){
         compositeDisposable.add(
-            detailDAO!!.getAllDetailMeal()
+            //detailDAO!!.getAllDetailMeal()
+            detailMealRepository.getAllMealDetailsFromDB()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
