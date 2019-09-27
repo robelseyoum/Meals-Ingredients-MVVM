@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.robelseyoum3.mealsproject.R
 import com.robelseyoum3.mealsproject.common.Constants
+import com.robelseyoum3.mealsproject.common.Utils
 import com.robelseyoum3.mealsproject.di.DaggerFragmentComponent
 import com.robelseyoum3.mealsproject.di.FragmentModule
 import com.robelseyoum3.mealsproject.di.NetworkModule
@@ -24,6 +25,7 @@ import com.robelseyoum3.mealsproject.model.specificcategries.Meals
 import com.robelseyoum3.mealsproject.model.specificcategries.MealsSource
 import com.robelseyoum3.mealsproject.network.CategoryRequestInterface
 import com.robelseyoum3.mealsproject.view.fragments.firstfragment.CategoriesAdaptor
+import com.robelseyoum3.mealsproject.view.fragments.firstfragment.FirstFragment
 import com.robelseyoum3.mealsproject.view.fragments.firstfragment.OnCategoryClickListener
 //import com.robelseyoum3.mealsproject.network.RetrofitInstances
 import com.robelseyoum3.mealsproject.view.fragments.thirdfragment.ThirdFragment
@@ -65,7 +67,17 @@ class SecondFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, specificCategoryViewModelFactory).get(SpecificCategoryViewModel::class.java)
 
-        viewModel.getAllSpecificCategory(categoryName)
+
+        if(Utils.checkInternet(activity!!.applicationContext)){
+            viewModel.getAllSpecificCategory(categoryName)
+            Log.d(TAG, "READ FROM API")
+        }else{
+            viewModel.getAllSpecificDBCategories()
+            Log.d(TAG, "READ FROM DATABASE")
+        }
+
+
+//        viewModel.getAllSpecificCategory(categoryName)
 
 
         viewModel.retunAllSpecificCatagoryResult()?.observe(this, object :Observer<MealsSource>{
@@ -79,11 +91,11 @@ class SecondFragment : Fragment() {
 
 //        viewModel.getAllSpecificDBCategories()
 
-//        viewModel.returnSpecificDBResult()?.observe(this, object : Observer<List<Meals>>{
-//            override fun onChanged(t: List<Meals>) {
-//                categoriesAdapterData(t)
-//            }
-//        })
+        viewModel.returnSpecificDBResult()?.observe(this, object : Observer<List<Meals>>{
+            override fun onChanged(t: List<Meals>) {
+                categoriesAdapterData(t)
+            }
+        })
 
 
         viewModel.returnProgressBar()?.observe(this, object : Observer<Boolean>{
@@ -155,7 +167,7 @@ class SecondFragment : Fragment() {
 
 
     companion object{
-        const val TAG = "SecondFragment - RobaZmaks"
+        const val TAG = "SecondFragment"
     }
 
     override fun onDestroy() {

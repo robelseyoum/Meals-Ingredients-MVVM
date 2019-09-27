@@ -53,10 +53,10 @@ class DetailMealViewModel (val detailMealRepository: DetialMealRepository) : Vie
         //telling the database is connection is success
         showSuccess.value = true
 
-        for (i in result.meals){
+        for (i in result.meals){  //for(i in artists.arti
             addToDb(i)
         }
-//        addToDb(result.meals)
+//        addToDb(result)
     }
 
 

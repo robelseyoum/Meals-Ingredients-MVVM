@@ -1,6 +1,8 @@
 package com.robelseyoum3.mealsproject.view.fragments.firstfragment
 
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.robelseyoum3.mealsproject.R
 import com.robelseyoum3.mealsproject.common.Constants
+import com.robelseyoum3.mealsproject.common.Utils
+import com.robelseyoum3.mealsproject.common.Utils.Companion.checkInternet
 import com.robelseyoum3.mealsproject.di.DaggerFragmentComponent
 import com.robelseyoum3.mealsproject.di.FragmentModule
 import com.robelseyoum3.mealsproject.di.NetworkModule
@@ -54,8 +58,20 @@ class FirstFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, mealViewModelFactory).get(MealViewModel::class.java)
 
 
-       //viewModel.getAllMealData(checknetWork())
-        viewModel.getAllMealData()
+       //viewModel.getAllMealData(checkInternet())
+
+        if(Utils.checkInternet(activity!!.applicationContext)){
+            viewModel.getAllMealData()
+            Log.d(TAG, "READ FROM API")
+            Toast.makeText(context,"READ FROM API",Toast.LENGTH_SHORT).show()
+
+        }else{
+            viewModel.getAllDBCategories()
+            Log.d(TAG, "READ FROM DATABASE")
+            Toast.makeText(context,"READ FROM DATABASE",Toast.LENGTH_SHORT).show()
+        }
+
+//        viewModel.getAllMealData()
 
 
         viewModel.retunAllMealResult()?.observe(this, object :Observer<CategoriesSource>{
@@ -68,13 +84,13 @@ class FirstFragment : Fragment() {
         })
 
 //        viewModel.getAllDBCategories()
-//
-//        viewModel.returnDBResult()?.observe(this, object : Observer<List<Categories>>{
-//            override fun onChanged(t: List<Categories>) {
-//                //Log.d("Categories Name", ""+t!!.categories[0]!!.strCategory)
-//                categoriesAdapterData(t)
-//            }
-//        })
+
+        viewModel.returnDBResult()?.observe(this, object : Observer<List<Categories>>{
+            override fun onChanged(t: List<Categories>) {
+                //Log.d("Categories Name", ""+t!!.categories[0]!!.strCategory)
+                categoriesAdapterData(t)
+            }
+        })
 
 
         viewModel.returnProgressBar()?.observe(this, object : Observer<Boolean>{
@@ -144,8 +160,19 @@ class FirstFragment : Fragment() {
     }
 
 
+
+//    private fun checkInternet(): Boolean {
+//        val connectivityManager = activity?.getSystemService(
+//            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+//        return activeNetworkInfo != null && activeNetworkInfo.isConnected
+//    }
+
+
+
+
     companion object{
-        const val TAG = "FirstFragment - RobaZmaks"
+        const val TAG = "FirstFragment"
     }
 
     override fun onDestroy() {

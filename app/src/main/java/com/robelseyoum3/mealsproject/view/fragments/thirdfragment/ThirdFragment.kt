@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.robelseyoum3.mealsproject.R
 import com.robelseyoum3.mealsproject.common.Constants
+import com.robelseyoum3.mealsproject.common.Utils
 import com.robelseyoum3.mealsproject.di.DaggerFragmentComponent
 import com.robelseyoum3.mealsproject.di.FragmentModule
 import com.robelseyoum3.mealsproject.di.NetworkModule
@@ -54,7 +55,16 @@ class ThirdFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, detailMealViewModelFactory).get(DetailMealViewModel::class.java)
 
-        viewModel.getAllMealDetial(mealID?.toInt())
+        if(Utils.checkInternet(activity!!.applicationContext)){
+            viewModel.getAllMealDetial(mealID?.toInt())
+            Log.d(TAG, "READ FROM API")
+        }else{
+            viewModel.getAllDetailsDBMeals()
+            Log.d(TAG, "READ FROM DATABASE")
+        }
+
+
+//        viewModel.getAllMealDetial(mealID?.toInt())
 
         viewModel.returnDetailMealResult()?.observe(this, object :androidx.lifecycle.Observer<List<Meals>>{
             override fun onChanged(t: List<Meals>) {
@@ -64,13 +74,13 @@ class ThirdFragment : Fragment() {
         })
 
 //        viewModel.getAllDetailsDBMeals()
-//
-//        viewModel.returnDetailDBResult()?.observe(this, object : androidx.lifecycle.Observer<Meals>{
-//            override fun onChanged(t: Meals) {
-////                detailMeals(t)
-//            }
-//
-//        })
+
+        viewModel.returnDetailDBResult()?.observe(this, object : androidx.lifecycle.Observer<Meals>{
+            override fun onChanged(t: Meals) {
+//                detailMeals(t)
+            }
+
+        })
 
         viewModel.returnProgressBar()?.observe(this, object : androidx.lifecycle.Observer<Boolean> {
             override fun onChanged(t: Boolean?) {
@@ -113,7 +123,7 @@ class ThirdFragment : Fragment() {
     }
 
     companion object{
-        const val TAG = "ThirdFragment - Roba"
+        const val TAG = "ThirdFragment"
     }
 
     override fun onDestroy() {

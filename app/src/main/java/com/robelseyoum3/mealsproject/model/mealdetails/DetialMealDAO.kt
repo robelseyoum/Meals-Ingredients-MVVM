@@ -10,7 +10,6 @@ import io.reactivex.Flowable
 @Dao
 interface DetialMealDAO {
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDetail(meals: com.robelseyoum3.mealsproject.model.mealdetails.Meals): Completable
 
