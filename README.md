@@ -1,4 +1,4 @@
-# Meals ingredients using Dagger2, Room, MVVM
+# Meals ingredients using Dagger2,Android MVVM Design Pattern with Room 
 
 <p align="center">
   <img src="1All_Category.png" alt="All Category" width="270" height="480"/>
